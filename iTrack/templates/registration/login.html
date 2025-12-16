@@ -1,0 +1,10 @@
+
+<form method="post">
+    {% csrf_token %}
+        {{ form.as_p }}
+
+    <div>
+        <a>Go back to homepage</a>
+        <button>Log In</button>
+    </div>
+</form>
