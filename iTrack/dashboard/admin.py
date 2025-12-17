@@ -1,21 +1,20 @@
 from django.contrib import admin
-from .models import Company, Opening, Job
+from .models import Company, ScrapedJob, Job
 
 
 class CompanyAdmin(admin.ModelAdmin):
-
     model = Company
 
 
-class OpeningAdmin(admin.ModelAdmin):
+class ScrapedJobAdmin(admin.ModelAdmin):
     """Create admin for Article."""
 
-    model = Opening
+    model = ScrapedJob
 
 class JobAdmin(admin.ModelAdmin):
     model = Job
 
 
 admin.site.register(Company, CompanyAdmin)
-admin.site.register(Opening, OpeningAdmin)
+admin.site.register(ScrapedJob, ScrapedJobAdmin)
 admin.site.register(Job, JobAdmin)

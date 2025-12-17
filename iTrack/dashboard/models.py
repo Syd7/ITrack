@@ -22,7 +22,7 @@ class Job(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
     link = models.URLField()
     status = models.CharField(
         max_length=20,
@@ -40,7 +40,7 @@ class Job(models.Model):
 
 class ScrapedJob(models.Model):
     title = models.CharField(max_length=255)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
     link = models.URLField(unique=True)
     source = models.CharField(max_length=50)
     date_scraped = models.DateTimeField(auto_now_add=True)

@@ -16,9 +16,10 @@ class CompanyForm(forms.ModelForm):
         """Create fields for the form and link ArticleImage model."""
 
         model = Company
-        fields = ['company_name', 'decription']
+        fields = ['company_name', 'description']
+
 class ScrapedJobForm(forms.ModelForm):
     class Meta:
         model = ScrapedJob
-        fields = ['title', 'link', 'source']
+        fields = ['title', 'company', 'link', 'source']
 
