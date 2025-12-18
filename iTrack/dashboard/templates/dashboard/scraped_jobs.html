@@ -1,0 +1,11 @@
+{% for job in scraped_jobs %}
+  <div class="job-card">
+    <h3>{{ job.title }}</h3>
+    <p>{{ job.company }}</p>
+
+    <form method="post" action="{% url 'dashboard:add_job' job.id %}">
+      {% csrf_token %}
+      <button type="submit">+ Interested</button>
+    </form>
+  </div>
+{% endfor %}

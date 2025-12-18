@@ -12,14 +12,14 @@
 <body>
     <h1>Dashboard</h1>
     <h1>Hi! {{user.username}}</h1>
-    {% if openings %}
-        {% for opening in openings %}
+    {% if jobs %}
+        {% for job in jobs %}
             <div class="card">
-                <h2>{{ opening.opening_name }}</h2>
-                <p><strong>Company:</strong> {{ opening.company.company_name }}</p>
-                <p><strong>Job Type:</strong> {{ opening.title }}</p>
-                <p><strong>Status:</strong> {{ opening.status }}</p>
-                <p><strong>Source:</strong> {{ opening.source }}</p>
+                <h2>{{ job.user.username }}</h2>
+                <p><strong>Company:</strong> {{ job.company.company_name }}</p>
+                <p><strong>Job Type:</strong> {{ job.title }}</p>
+                <p><strong>Status:</strong> {{ job.status }}</p>
+                <p><strong>Source:</strong> {{ job.source }}</p>
             </div>
         {% endfor %}
     {% else %}

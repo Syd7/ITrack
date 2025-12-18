@@ -1,14 +1,17 @@
-from django.shortcuts import render
-from .models import ScrapedJob 
+from django.shortcuts import render, get_object_or_404
+from .models import ScrapedJob, Job
 from django.contrib.auth.decorators import login_required
 from .forms import Job_Form, ScrapedJobForm, CompanyForm
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+
 
 
 # Create your views here.
 @login_required
 def dashboard_View(request):
-    openings = ScrapedJob.objects.all()  
-    return render(request, 'dashboard/dashboard.html', {'openings': openings})
+    jobs = Job.objects.filter(user=request.user)
+    return render(request, "dashboard/dashboard.html", {"jobs": jobs})
 
 @login_required
 def createJob_View(request):
@@ -48,3 +51,24 @@ def createScrapedJob_View(request):
     return render(request, 'dashboard/createScrapedJob.html', {
         'form': form
     })   
+
+
+
+@login_required
+def add_jobView(request, scraped_job_id):
+    scraped_job = get_object_or_404(ScrapedJob, id=scraped_job_id)
+
+    Job.objects.get_or_create(
+        user=request.user,
+        title=scraped_job.title,
+        company=scraped_job.company,
+        link=scraped_job.link,
+        defaults={"status": "interested"},
+    )
+
+    return redirect("dashboard:dashboard")
+
+@login_required
+def scraped_jobsView(request):
+    jobs = ScrapedJob.objects.all()
+    return render(request, "dashboard/scraped_jobs.html", {"scraped_jobs": jobs})
