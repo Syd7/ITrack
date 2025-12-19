@@ -1,0 +1,98 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  z-index: 100;
+  border-bottom: 2px solid gray;
+}
+
+.name {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 32px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.navbar a.profile{
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 20px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.navbar a.dashboard{
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 20px;
+  text-decoration: none;
+  font-weight: 700;
+  margin-right: 20px;
+  color: black
+
+}
+
+.navbar a.scraped_jobs{
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 20px;
+  text-decoration: none;
+  font-weight: 700;
+  color: black
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+}
+
+.navbar a {
+  font-size: 18px;
+  color: white;
+  font-weight: 500;
+  text-decoration: none;
+  margin-left: 40px;
+}
+.circle {
+    width: 50px;      
+    height: 50px;         
+    border-radius: 50%;  
+    margin-right: 15px;  
+}
+.logocontainer {
+    display: flex;
+    align-items: center;
+}
+
+
+.btn-primary {
+	font-weight: bold;
+	padding: 8px 16px 6px 16px;
+  border-radius: 8px;
+
+}
+
+.form_information {
+    display: grid;
+    grid-template-columns: 1fr; 
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+    margin-left: 70px;
+    margin-right: 70px;
+    border-radius: 8px;
+}
