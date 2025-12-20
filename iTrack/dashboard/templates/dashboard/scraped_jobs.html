@@ -1,11 +1,29 @@
-{% for job in scraped_jobs %}
-  <div class="job-card">
-    <h3>{{ job.title }}</h3>
-    <p>{{ job.company }}</p>
+{% extends "base.html" %}
+{% load static %}
 
-    <form method="post" action="{% url 'dashboard:add_job' job.id %}">
+{% block title %}Organizer Information{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'dashboard/styles/design.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Scraped Jobs</h1>
+<p>Search bar Here</p>
+ <div class="jobGrid">
+  <div class="jobGridCellHeader">Job Title</div>
+  <div class="jobGridCellHeader">Company</div>
+  <div class="jobGridCellHeader">Source</div>
+  <div class="jobGridCellHeader"></div>
+
+{% for job in scraped_jobs %}
+    <div class="jobGridCell">{{job.title}}</div>
+    <div class="jobGridCell">{{job.company}}</div>
+    <div class="jobGridCell">{{job.source}}</div>
+    <div class="jobGridCell">   <form method="post" action="{% url 'dashboard:add_job' job.id %}">
       {% csrf_token %}
-      <button type="submit">+ Interested</button>
-    </form>
-  </div>
+      <button type="submit">+ Interested</button></div>
 {% endfor %}
+</div>
+
+
+{% endblock %}
