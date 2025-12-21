@@ -1,16 +1,36 @@
-<h2>Register</h2>
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Register{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'user_management/styles/design.css' %}">
+{% endblock %}
+
+{% block content %}
 
 <form method="POST">
-    {% csrf_token %}
+    <div class="centerContainer">
+    <div class="RegisterBox">
+        <h2>Register</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="password" name="password1" placeholder="Password" required><br>
+            <input type="password" name="password2" placeholder="Confirm Password" required><br>
+            <button type="submit">Register</button>
+        </form>
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+</div>
 
-    <input type="text" name="username" placeholder="Username" required><br>
-    <input type="email" name="email" placeholder="Email" required><br>
-    <input type="password" name="password1" placeholder="Password" required><br>
-    <input type="password" name="password2" placeholder="Confirm Password" required><br>
-
-    <button type="submit">Register</button>
 </form>
 
 {% for message in messages %}
     <p>{{ message }}</p>
 {% endfor %}
+
+{% endblock %}
