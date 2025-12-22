@@ -1,6 +1,6 @@
 """Direct users to appropriate urls depending on needs."""
 from django.urls import path
-from .views import dashboard_View, createJob_View, createCompany_View, createScrapedJob_View, scraped_jobsView, add_jobView
+from .views import dashboard_View, createJob_View, createCompany_View, createScrapedJob_View, scraped_jobsView, add_jobView, login_view
 
 app_name = "dashboard"
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('dashboard/createScrapedJob', createScrapedJob_View, name='createScrapedJob_View'),
     path("scraped-jobs/", scraped_jobsView, name="scraped_jobs"),
     path("jobs/add/<int:scraped_job_id>/", add_jobView, name="add_job"),
+    path("login/", login_view, name="login"),
 ]

@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import Job_Form, ScrapedJobForm, CompanyForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 
 
 
@@ -72,3 +74,18 @@ def add_jobView(request, scraped_job_id):
 def scraped_jobsView(request):
     jobs = ScrapedJob.objects.all()
     return render(request, "dashboard/scraped_jobs.html", {"scraped_jobs": jobs})
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("dashboard")  # replace with your URL name
+        else:
+            error = "Invalid username or password"
+            return render(request, "registration/login.html", {"error": error})
+
+    return render(request, "registration/login.html")
