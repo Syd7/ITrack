@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 import requests
 from bs4 import BeautifulSoup
-from dashboard.models import ScrapedJob
+from dashboard.models import ScrapedJob, Company
 
 
 class Command(BaseCommand):
@@ -27,19 +27,35 @@ class Command(BaseCommand):
                 continue
 
             title = title_el.text.strip()
-            company = company_el.text.replace("Company:", "").strip()
+            company_name = company_el.text.replace("Company:", "").strip()
             link = "https://www.python.org" + link_el["href"]
 
-            _, created = ScrapedJob.objects.get_or_create(
+            raw_company = company_name
+            if raw_company.startswith("New "):
+                raw_company = raw_company[4:].strip()
+
+            if raw_company.startswith(title):
+                company_name = raw_company[len(title):].strip(" —-")
+            else:
+                company_name = raw_company
+            # 1️⃣ Create or get Company
+            company, _ = Company.objects.get_or_create(
+                company_name=company_name,
+                defaults={"description": ""}
+            )
+
+            job_obj, created = ScrapedJob.objects.get_or_create(
                 link=link,
                 defaults={
                     "title": title,
-                    "source": "python.org",
+                    "company": company,
+                    "source": "python.org"
                 },
             )
 
             if created:
                 created_count += 1
+
 
         self.stdout.write(
             self.style.SUCCESS(f"Scraped {created_count} new jobs")
