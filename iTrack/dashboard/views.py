@@ -72,8 +72,16 @@ def add_jobView(request, scraped_job_id):
 
 @login_required
 def scraped_jobsView(request):
-    jobs = ScrapedJob.objects.all()
-    return render(request, "dashboard/scraped_jobs.html", {"scraped_jobs": jobs})
+    query = request.GET.get("q", "") 
+    if query:
+        jobs = ScrapedJob.objects.filter(title__icontains=query)
+    else:
+        jobs = ScrapedJob.objects.all()
+    
+    return render(request, "dashboard/scraped_jobs.html", {
+        "scraped_jobs": jobs,
+        "query": query 
+    })
 
 
 def login_view(request):
@@ -83,7 +91,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("dashboard")  # replace with your URL name
+            return redirect("dashboard")  
         else:
             error = "Invalid username or password"
             return render(request, "registration/login.html", {"error": error})

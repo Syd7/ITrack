@@ -8,7 +8,12 @@
 
 {% block content %}
 <h1>Scraped Jobs</h1>
-<p>Search bar Here</p>
+<form method="get">
+    <input type="text" name="q" placeholder="Search by job title" value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
+
+
  <div class="jobGrid">
   <div class="jobGridCellHeader">Job Title</div>
   <div class="jobGridCellHeader">Company</div>
