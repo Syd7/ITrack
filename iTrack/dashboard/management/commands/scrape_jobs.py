@@ -38,7 +38,7 @@ class Command(BaseCommand):
                 company_name = raw_company[len(title):].strip(" —-")
             else:
                 company_name = raw_company
-            # 1️⃣ Create or get Company
+
             company, _ = Company.objects.get_or_create(
                 company_name=company_name,
                 defaults={"description": ""}

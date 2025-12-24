@@ -8,9 +8,9 @@
 
 {% block content %}
 <h1>Scraped Jobs</h1>
-<form method="get">
-    <input type="text" name="q" placeholder="Search by job title" value="{{ query }}">
-    <button type="submit">Search</button>
+<form method="get" class ="search">
+    <input type="text" name="q" placeholder="Search by job title" value="{{ query }}" class="search_input">
+    <button type="submit" class="search_button">Search</button>
 </form>
 
 
