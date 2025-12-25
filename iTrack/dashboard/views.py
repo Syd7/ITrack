@@ -65,6 +65,7 @@ def add_jobView(request, scraped_job_id):
         title=scraped_job.title,
         company=scraped_job.company,
         link=scraped_job.link,
+        source=scraped_job.source,
         defaults={"status": "interested"},
     )
 

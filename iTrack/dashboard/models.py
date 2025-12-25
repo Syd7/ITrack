@@ -31,6 +31,7 @@ class Job(models.Model):
     )
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    source = models.CharField(max_length=50)
 
     def __str__(self):
         return f"{self.title} @ {self.company}"
