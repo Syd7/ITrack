@@ -24,10 +24,18 @@
     <div class="jobGridCell">{{job.title}}</div>
     <div class="jobGridCell">{{job.company}}</div>
     <div class="jobGridCell">{{job.source}}</div>
-    <div class="jobGridCell">   <form method="post" action="{% url 'dashboard:add_job' job.id %}">
-      {% csrf_token %}
-      <button type="submit">+ Interested</button></div>
+    <div class="jobGridCell">
+      {% if job.id in user_jobs %}
+        Already Interested
+      {% else %}
+        <form method="post" action="{% url 'dashboard:add_job' job.id %}">
+          {% csrf_token %}
+          <button type="submit" class="button">+ Interested</button>
+        </form>
+      {% endif %}
+    </div>
 {% endfor %}
+
 </div>
 
 

@@ -62,11 +62,14 @@ def add_jobView(request, scraped_job_id):
 
     Job.objects.get_or_create(
         user=request.user,
-        title=scraped_job.title,
-        company=scraped_job.company,
-        link=scraped_job.link,
-        source=scraped_job.source,
-        defaults={"status": "interested"},
+        scraped_job=scraped_job,
+        defaults={
+        "title": scraped_job.title,
+        "company": scraped_job.company,
+        "link": scraped_job.link,
+        "source": scraped_job.source,
+        "status": "interested",
+    },
     )
 
     return redirect("dashboard:dashboard")

@@ -13,6 +13,20 @@ class Company(models.Model):
     class Meta:
         ordering = ["company_name"]
 
+class ScrapedJob(models.Model):
+    title = models.CharField(max_length=255)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
+    link = models.URLField(unique=True)
+    source = models.CharField(max_length=50)
+    date_scraped = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} @ {self.company}"
+
+    class Meta:
+        ordering = ["-date_scraped"]
+
+
 class Job(models.Model):
     STATUS_CHOICES = [
         ("interested", "Interested"),
@@ -24,6 +38,8 @@ class Job(models.Model):
     title = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
     link = models.URLField()
+    scraped_job = models.ForeignKey(ScrapedJob, on_delete=models.CASCADE, null=True, blank=True)
+
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
@@ -38,17 +54,3 @@ class Job(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
-
-class ScrapedJob(models.Model):
-    title = models.CharField(max_length=255)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
-    link = models.URLField(unique=True)
-    source = models.CharField(max_length=50)
-    date_scraped = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.title} @ {self.company}"
-
-    class Meta:
-        ordering = ["-date_scraped"]
-
