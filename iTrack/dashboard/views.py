@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+
 
 
 
@@ -101,3 +103,14 @@ def login_view(request):
             return render(request, "registration/login.html", {"error": error})
 
     return render(request, "registration/login.html")
+
+@login_required
+def update_job_status(request, job_id):
+    job = get_object_or_404(Job, id=job_id, user=request.user)
+
+    new_status = request.POST.get("status")
+    if new_status in dict(Job.STATUS_CHOICES):
+        job.status = new_status
+        job.save()
+
+    return HttpResponse(status=204)
