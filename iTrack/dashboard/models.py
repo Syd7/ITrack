@@ -32,6 +32,7 @@ class Job(models.Model):
         ("interested", "Interested"),
         ("applied", "Applied"),
         ("rejected", "Rejected"),
+        ("offer", "Offer"),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -1,51 +1,211 @@
-{% extends "base.html" %}
-{% load static %}
+<!DOCTYPE html>
 
-{% block title %}Dashboard{% endblock %}
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Saved Job Opportunities - InternTracker</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111a22",
+                        "surface-dark": "#1c2a38", 
+                        "border-dark": "#2b3f52",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
 
-{% block head %}
-<link rel="stylesheet" href="{% static 'dashboard/styles/design.css' %}">
-{% endblock %}
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Layout Container -->
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-background-dark px-4 py-3 md:px-10 lg:px-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">InternTracker</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal border-b-2 border-primary pb-1" href="#">Jobs</a>
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Applications</a>
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Profile</a>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-border-dark" data-alt="User profile picture placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyBEQ-CNmpsMq-_xzgK2MDtTtnuABZNfDpR8LEqXHeCx0zm5jXumUCgBEMzj-VT8FQKU5qzNLsCRvP6hnzt7maQpzMtg7InJ5AngMHr-0-NPwXtAkflXRxyC2oOFUhHwtQEOXFBmzRO8_sIbNpaXDoRFDNsK6N0xraIIWhl_be4NuQFquB7dXCWBVGfES_td_OtF20VWWDnUhcbPJWM9XWHr-Mk0MytM0O6sV45yvjdL85cEDgPKwIj1DmKO5MFnl_0gZIEY2Z_Pg");'></div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex flex-1 flex-col px-4 py-8 md:px-20 lg:px-40">
+<div class="mx-auto w-full max-w-[1024px] flex flex-col gap-8">
+<!-- Page Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Saved Opportunities</h1>
+<p class="text-[#92adc9] text-base font-normal leading-normal">Track and manage your internship applications in one place.</p>
+</div>
+<!-- Stats Overview -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-border-dark bg-surface-dark/50">
+<p class="text-[#92adc9] text-sm font-medium leading-normal">Interested</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">    {{ count_map.interested|default:0 }}
+</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-primary/30 bg-primary/10">
+<p class="text-primary text-sm font-medium leading-normal">Applied</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">    {{ count_map.applied|default:0 }}
+</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-amber-500/30 bg-amber-500/10">
+<p class="text-amber-500 text-sm font-medium leading-normal">Rejected</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">{{ count_map.rejected|default:0 }}</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-emerald-500/30 bg-emerald-500/10">
+<p class="text-emerald-500 text-sm font-medium leading-normal">Offers</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">{{ count_map.offer|default:0 }}</p>
+</div>
+</div>
+<!-- Toolbar: Search and Action -->
+<div class="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+<!-- Search Bar -->
+<div class="flex-1 max-w-lg">
+<div class="flex w-full items-center rounded-lg h-12 bg-surface-dark border border-border-dark focus-within:border-primary transition-colors overflow-hidden">
+<div class="text-[#92adc9] flex items-center justify-center pl-4 pr-2">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="w-full bg-transparent text-white focus:outline-0 placeholder:text-[#92adc9] px-2 text-base font-normal leading-normal h-full border-none focus:ring-0" placeholder="Search by company or job title..." value=""/>
+</div>
+</div>
+<!-- Sort & Add Buttons -->
+ <a href="?sort-date">
+<div class="flex gap-3">
+<button class="hidden md:flex items-center justify-center h-12 px-4 rounded-lg border border-border-dark bg-surface-dark text-[#92adc9] hover:text-white hover:border-gray-500 transition-colors gap-2 text-sm font-medium">
+<span class="material-symbols-outlined text-[20px]">sort</span>
+<span>Sort by Date</span>
+</button>
+</a>
+<button class="flex items-center justify-center h-12 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] transition-colors shadow-lg shadow-blue-900/20">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="truncate">Add New Job</span>
+</button>
+</div>
+</div>
+<!-- Kanban/List Header (Desktop only) -->
+<div class="hidden md:flex px-6 py-2 text-xs font-semibold text-[#92adc9] uppercase tracking-wider">
+<div class="flex-[2]">Company &amp; Role</div>
+<div class="flex-1">Date Added</div>
+<div class="flex-1">Source</div>
+<div class="w-40">Status</div>
+<div class="w-10"></div>
+</div>
+<!-- Job List Container -->
+<div class="flex flex-col gap-3">
+{% for job in jobs %}
+<div class="group flex flex-col md:flex-row items-start md:items-center p-4 rounded-xl
+            bg-surface-dark border border-border-dark hover:border-primary/50 transition-all gap-4 shadow-sm">
 
-{% block content %}
-<h1>Dashboard</h1>
-<h2>Hi! {{ user.username }}</h2>
+  <div class="flex-[2] flex items-center gap-4">
+    <div class="size-12 rounded-lg bg-white p-1 flex items-center justify-center shrink-0">
+      {% if job.logo %}
+        <img src="{{ job.logo.url }}" class="w-full h-full object-contain">
+      {% else %}
+        <span class="material-symbols-outlined text-3xl text-gray-800">domain</span>
+      {% endif %}
+    </div>
 
-{% if jobs %}
-    {% for job in jobs %}
-        <div class="card">
-            <h3>{{ job.title }}</h3>
+    <div class="flex flex-col min-w-0">
+      <h3 class="text-white font-bold text-lg truncate">{{ job.title |truncatechars:30 }}</h3>
+      <p class="text-[#92adc9] text-sm">{{ job.company }}</p>
+    </div>
+  </div>
 
-            <p>
-                <strong>Company:</strong>
-                {{ job.company.company_name }}
-            </p>
+  <div class="flex-1 text-[#92adc9] text-sm">
+    {{ job.created_at|date:"M d, Y" }}
+  </div>
 
-            <p>
-                <strong>Source:</strong>
-                {{ job.source }}
-            </p>
+  <div class="flex-1">
+    <span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium">
+      {{ job.source }}
+    </span>
+  </div>
 
-            <!-- INLINE STATUS EDIT -->
-            <form
-                hx-post="{% url 'dashboard:update_job_status' job.id %}"
-                hx-trigger="change from:select"
-                hx-swap="none"
-            >
-                {% csrf_token %}
-                <label><strong>Status:</strong></label>
-                <select name="status">
-                    {% for value, label in job.STATUS_CHOICES %}
-                        <option value="{{ value }}" {% if job.status == value %}selected{% endif %}>
-                            {{ label }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </form>
-        </div>
-    {% endfor %}
-{% else %}
-    <p>No openings yet. Add some through the admin panel!</p>
-{% endif %}
+  <form
+    hx-post="{% url 'dashboard:update_job_status' job.id %}"
+    hx-trigger="change"
+    hx-swap="none"
+>
+    {% csrf_token %}
 
-{% endblock %}
+    <div class="relative w-full">
+        <select
+            name="status"
+            class="
+                w-full appearance-none cursor-pointer
+                px-3 py-2 pr-8 rounded-lg text-sm font-semibold
+                border transition-colors
+                focus:outline-none focus:ring-0
+
+                {% if job.status == 'Applied' %}
+                    bg-primary/10 border-primary/50 text-primary hover:bg-primary/20
+                {% elif job.status == 'Interested' %}
+                    bg-amber-500/10 border-amber-500/50 text-amber-500 hover:bg-amber-500/20
+                {% elif job.status == 'Rejected' %}
+                    bg-red-500/10 border-red-500/50 text-red-400 hover:bg-red-500/20
+                {% elif job.status == 'Offer' %}
+                    bg-emerald-500/10 border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/20
+                {% else %}
+                    bg-white/5 border-white/10 text-gray-300 hover:bg-white/10
+                {% endif %}
+            "
+        >
+            {% for value, label in job.STATUS_CHOICES %}
+                <option value="{{ value }}" {% if job.status == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+
+
+        
+        <!-- Dropdown icon -->
+        <span class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-current">
+            <span class="material-symbols-outlined text-lg">
+                expand_more
+            </span>
+        </span>
+    </div>
+</form>
+
+</div>
+{% empty %}
+<p class="text-[#92adc9]">No saved jobs yet.</p>
+{% endfor %}
+
+<!-- Pagination / Empty Space Filler -->
+<div class="flex justify-center pt-8">
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

@@ -7,6 +7,8 @@ from django.shortcuts import redirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
+from django.db.models import Count
+
 
 
 
@@ -15,7 +17,24 @@ from django.http import HttpResponse
 @login_required
 def dashboard_View(request):
     jobs = Job.objects.filter(user=request.user)
-    return render(request, "dashboard/dashboard.html", {"jobs": jobs})
+    sort = request.GET.get("sort", "created_at")
+
+
+    counts = (
+        jobs
+        .values("status")
+        .annotate(count=Count("id"))
+    )
+
+    count_map = {c["status"]: c["count"] for c in counts}
+    if sort == "date":
+        jobs = jobs.order_by("created_at")
+    elif sort == "date_desc":
+        jobs = jobs.order_by("-created_at")
+    return render(request, "dashboard/dashboard.html", {
+        "jobs": jobs,
+        "count_map": count_map,
+    })
 
 @login_required
 def createJob_View(request):
