@@ -106,15 +106,23 @@ def add_jobView(request, scraped_job_id):
 
 @login_required
 def scraped_jobsView(request):
-    query = request.GET.get("q", "") 
+    query = request.GET.get("q", "")
+
     if query:
         jobs = ScrapedJob.objects.filter(title__icontains=query)
     else:
         jobs = ScrapedJob.objects.all()
-    
+
+    user_jobs = Job.objects.filter(user=request.user)\
+                           .values_list("scraped_job_id", flat=True)
+
+    total_jobs = jobs.count() 
+
     return render(request, "dashboard/scraped_jobs.html", {
         "scraped_jobs": jobs,
-        "query": query 
+        "query": query,
+        "user_jobs": set(user_jobs),
+        "total_jobs": total_jobs,
     })
 
 

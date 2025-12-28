@@ -1,42 +1,195 @@
-{% extends "base.html" %}
-{% load static %}
+<!DOCTYPE html>
 
-{% block title %}Scraped Jobs{% endblock %}
-{% block head %}
-<link rel="stylesheet" href="{% static 'dashboard/styles/design.css' %}">
-{% endblock %}
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Saved Job Opportunities - InternTracker</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111a22",
+                        "surface-dark": "#1c2a38", 
+                        "border-dark": "#2b3f52",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
 
-{% block content %}
-<h1>Scraped Jobs</h1>
-<form method="get" class ="search">
-    <input type="text" name="q" placeholder="Search by job title" value="{{ query }}" class="search_input">
-    <button type="submit" class="search_button">Search</button>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Layout Container -->
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-background-dark px-4 py-3 md:px-10 lg:px-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">InternTracker</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'dashboard:dashboard' %}">My Jobs</a>
+<a class="text-white text-sm font-medium leading-normal border-b-2 border-primary pb-1" href="{% url 'dashboard:scraped_jobs' %}">Scraped Jobs</a>
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="">Log Out</a>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-border-dark" data-alt="User profile picture placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyBEQ-CNmpsMq-_xzgK2MDtTtnuABZNfDpR8LEqXHeCx0zm5jXumUCgBEMzj-VT8FQKU5qzNLsCRvP6hnzt7maQpzMtg7InJ5AngMHr-0-NPwXtAkflXRxyC2oOFUhHwtQEOXFBmzRO8_sIbNpaXDoRFDNsK6N0xraIIWhl_be4NuQFquB7dXCWBVGfES_td_OtF20VWWDnUhcbPJWM9XWHr-Mk0MytM0O6sV45yvjdL85cEDgPKwIj1DmKO5MFnl_0gZIEY2Z_Pg");'></div>
+</div>
+</header>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Page Heading & Stats Row -->
+<div class="flex flex-col lg:flex-row gap-8 mb-8">
+<!-- Heading -->
+<div class="flex-1 flex flex-col justify-center gap-3">
+<h1 class="text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Internship Opportunities</h1>
+<p class="text-[#92adc9] text-base font-normal leading-normal max-w-xl">Find and track your next big break from over listings aggregated from python.org, Indeed, and Glassdoor.</p>
+</div>
+<!-- Stats -->
+<div class="flex flex-wrap gap-4 lg:w-auto w-full">
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-lg p-4 border border-border-dark bg-surface-dark/50">
+<p class="text-[#92adc9] text-sm font-medium">New Today</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-2xl font-bold">50</p>
+<p class="text-emerald-500 text-xs font-bold">+5%</p>
+</div>
+</div>
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-lg p-4 border border-border-dark bg-surface-dark/50">
+<p class="text-[#92adc9] text-sm font-medium">Total Active</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-2xl font-bold">1,240</p>
+<p class="text-emerald-500 text-xs font-bold">+12%</p>
+</div>
+</div>
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-lg p-4 border border-border-dark bg-surface-dark/50">
+<p class="text-[#92adc9] text-sm font-medium">Total Jobs</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-2xl font-bold">{{scraped_jobs.count}}</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Search & Filter Toolbar -->
+<div class="flex flex-col gap-4 mb-8 bg-surface-dark p-4 rounded-xl border border-border-dark shadow-sm">
+<!-- Search Bar -->
+<form method="get" class="w-full">
+    <label
+        class="flex w-full items-center gap-2 rounded-lg bg-background-dark
+               border border-border-dark px-3 py-3
+               focus-within:border-primary focus-within:ring-1 focus-within:ring-primary
+               transition-all">
+
+        <span class="material-symbols-outlined text-[#92adc9]">search</span>
+
+        <input
+            type="text"
+            name="q"
+            value="{{ query }}"
+            class="w-full bg-transparent text-white placeholder-[#92adc9]
+                   outline-none border-none text-base focus:ring-0 p-0"
+            placeholder="Search for roles (e.g. Software Engineer, Data Analyst)..."
+        />
+    </label>
 </form>
 
-
- <div class="jobGrid">
-  <div class="jobGridCellHeader">Job Title</div>
-  <div class="jobGridCellHeader">Company</div>
-  <div class="jobGridCellHeader">Source</div>
-  <div class="jobGridCellHeader"></div>
-
+<!-- Chips / Filters -->
+<div class="flex flex-wrap items-center gap-3">
+<button class="group flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-background-dark border border-border-dark px-4 hover:border-primary hover:text-primary transition-all">
+<span class="text-[#92adc9] group-hover:text-primary text-sm font-medium">Company</span>
+<span class="material-symbols-outlined text-[#92adc9] group-hover:text-primary text-[20px]">expand_more</span>
+</button>
+<button class="group flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-background-dark border border-border-dark px-4 hover:border-primary hover:text-primary transition-all">
+<span class="text-[#92adc9] group-hover:text-primary text-sm font-medium">Location</span>
+<span class="material-symbols-outlined text-[#92adc9] group-hover:text-primary text-[20px]">expand_more</span>
+</button>
+<button class="group flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-background-dark border border-border-dark px-4 hover:border-primary hover:text-primary transition-all">
+<span class="text-[#92adc9] group-hover:text-primary text-sm font-medium">Date Posted</span>
+<span class="material-symbols-outlined text-[#92adc9] group-hover:text-primary text-[20px]">expand_more</span>
+</button>
+<button class="group flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-background-dark border border-border-dark px-4 hover:border-primary hover:text-primary transition-all">
+<span class="text-[#92adc9] group-hover:text-primary text-sm font-medium">Job Type</span>
+<span class="material-symbols-outlined text-[#92adc9] group-hover:text-primary text-[20px]">expand_more</span>
+</button>
+<div class="flex-1"></div> <!-- Spacer -->
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/10 pl-4 pr-2 hover:bg-primary/20 transition-colors">
+<p class="text-primary text-sm font-medium">Sort: Newest First</p>
+<span class="material-symbols-outlined text-primary text-[20px]">sort</span>
+</button>
+</div>
+</div>
+<!-- Job Feed Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
 {% for job in scraped_jobs %}
-    <div class="jobGridCell">{{job.title}}</div>
-    <div class="jobGridCell">{{job.company}}</div>
-    <div class="jobGridCell">{{job.source}}</div>
-    <div class="jobGridCell">
-      {% if job.id in user_jobs %}
+
+<article class="flex flex-col gap-4 p-5 rounded-xl border border-border-dark bg-surface-dark hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all group">
+<div class="flex justify-between items-start gap-3">
+<div class="flex items-center">
+
+<div>
+<h3 class="text-white text-lg font-bold group-hover:text-primary transition-colors line-clamp-1">{{job.title}}</h3>
+<p class="text-[#92adc9] text-sm">{{job.company}}</p>
+</div>
+</div>
+<button class="text-[#92adc9] hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined">bookmark_border</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-y-2 gap-x-4 text-xs font-medium text-[#92adc9]">
+<div class="flex items-center gap-1 text-primary/80 bg-primary/10 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">public</span>
+                        {{job.source}}
+                    </div>
+</div>
+<p class="text-gray-400 text-sm leading-relaxed line-clamp-3">
+                    Description has not yet been implemented
+                </p>
+<div class="pt-2 mt-auto">
+{% if job.id in user_jobs %}
+    <span class="text-sm text-[#92adc9] font-medium">
         Already Interested
-      {% else %}
-        <form method="post" action="{% url 'dashboard:add_job' job.id %}">
-          {% csrf_token %}
-          <button type="submit" class="button">+ Interested</button>
-        </form>
-      {% endif %}
-    </div>
-{% endfor %}
+    </span>
+{% else %}
+    <form method="post" action="{% url 'dashboard:add_job' job.id %}">
+        {% csrf_token %}
+        <button
+            type="submit"
+            class="flex items-center justify-center w-full
+                   bg-primary hover:bg-primary/90 text-white
+                   font-medium py-2.5 px-4 rounded-lg
+                   transition-colors shadow-lg shadow-blue-900/20">
+            + Interested
+        </button>
+    </form>
+{% endif %}
 
 </div>
+</article>
+{% endfor %}
 
-
-{% endblock %}
+<!-- Pagination -->
+<div class="flex justify-center mt-12 mb-8">
+</div>
+</main>
+</body></html>
