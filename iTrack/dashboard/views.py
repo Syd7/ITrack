@@ -17,23 +17,32 @@ from django.db.models import Count
 @login_required
 def dashboard_View(request):
     jobs = Job.objects.filter(user=request.user)
+
+    # search
+    query = request.GET.get("q", "").strip()
+    if query:
+        jobs = jobs.filter(title__icontains=query)
+
+    # sort
     sort = request.GET.get("sort", "created_at")
+    if sort == "date":
+        jobs = jobs.order_by("created_at")
+    elif sort == "date_desc":
+        jobs = jobs.order_by("-created_at")
 
-
+    # status counts (based on filtered jobs)
     counts = (
         jobs
         .values("status")
         .annotate(count=Count("id"))
     )
-
     count_map = {c["status"]: c["count"] for c in counts}
-    if sort == "date":
-        jobs = jobs.order_by("created_at")
-    elif sort == "date_desc":
-        jobs = jobs.order_by("-created_at")
+
     return render(request, "dashboard/dashboard.html", {
         "jobs": jobs,
         "count_map": count_map,
+        "query": query,   # so the input stays filled
+        "sort": sort,     # useful for preserving sort in links
     })
 
 @login_required
