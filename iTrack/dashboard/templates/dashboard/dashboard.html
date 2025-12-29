@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Saved Job Opportunities - InternTracker</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111a22",
+                        "surface-dark": "#1c2a38", 
+                        "border-dark": "#2b3f52",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Layout Container -->
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-background-dark px-4 py-3 md:px-10 lg:px-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">InternTracker</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'dashboard:myJobs' %}">My Jobs</a>
+<a class="text-white text-sm font-medium leading-normal border-b-2 border-primary pb-1" href="{% url 'dashboard:scraped_jobs' %}">Scraped Jobs</a>
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="">Log Out</a>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-border-dark" data-alt="User profile picture placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyBEQ-CNmpsMq-_xzgK2MDtTtnuABZNfDpR8LEqXHeCx0zm5jXumUCgBEMzj-VT8FQKU5qzNLsCRvP6hnzt7maQpzMtg7InJ5AngMHr-0-NPwXtAkflXRxyC2oOFUhHwtQEOXFBmzRO8_sIbNpaXDoRFDNsK6N0xraIIWhl_be4NuQFquB7dXCWBVGfES_td_OtF20VWWDnUhcbPJWM9XWHr-Mk0MytM0O6sV45yvjdL85cEDgPKwIj1DmKO5MFnl_0gZIEY2Z_Pg");'></div>
+</div>
+</header>
+
+
+<div class="flex-1 flex overflow-hidden w-full">
+<main class="flex-1 flex flex-col h-full relative overflow-y-auto w-full">
+<div class="container mx-auto max-w-7xl px-4 md:px-8 py-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div class="flex flex-col gap-1">
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium uppercase tracking-wide">Good evening, Alex</p>
+<h1 class="text-[#111418] dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Dashboard</h1>
+<p class="text-[#637588] dark:text-[#93adc8] text-base font-normal">Track your internship applications and upcoming interviews.</p>
+</div>
+<div>
+<button class="flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-5 py-3 rounded-xl font-bold transition-all shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+<span>Add Application</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+<div class="flex flex-col justify-between p-5 rounded-xl bg-white dark:bg-surface-dark border border-[#e6e8eb] dark:border-transparent shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 rounded-lg bg-blue-50 dark:bg-[#233648] text-primary dark:text-[#93adc8]">
+<span class="material-symbols-outlined">folder</span>
+</div>
+<span class="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-full">+2 this week</span>
+</div>
+<div>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium">Total Applications</p>
+<p class="text-[#111418] dark:text-white text-3xl font-bold mt-1">24</p>
+</div>
+</div>
+<div class="flex flex-col justify-between p-5 rounded-xl bg-white dark:bg-surface-dark border border-[#e6e8eb] dark:border-transparent shadow-sm relative overflow-hidden group">
+<div class="absolute right-0 top-0 h-full w-1 bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">video_camera_front</span>
+</div>
+</div>
+<div>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium">Interviews Scheduled</p>
+<p class="text-primary text-3xl font-bold mt-1">3</p>
+</div>
+</div>
+<div class="flex flex-col justify-between p-5 rounded-xl bg-white dark:bg-surface-dark border border-[#e6e8eb] dark:border-transparent shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 rounded-lg bg-green-500/10 text-green-500">
+<span class="material-symbols-outlined">celebration</span>
+</div>
+</div>
+<div>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium">Offers Received</p>
+<p class="text-[#111418] dark:text-white text-3xl font-bold mt-1">1</p>
+</div>
+</div>
+<div class="flex flex-col justify-between p-5 rounded-xl bg-white dark:bg-surface-dark border border-[#e6e8eb] dark:border-transparent shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 rounded-lg bg-red-500/10 text-red-500">
+<span class="material-symbols-outlined">close</span>
+</div>
+</div>
+<div>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium">Rejections</p>
+<p class="text-[#111418] dark:text-white text-3xl font-bold mt-1">5</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 flex flex-col gap-6">
+<div class="bg-white dark:bg-surface-dark rounded-xl p-6 border border-[#e6e8eb] dark:border-transparent shadow-sm">
+<div class="flex justify-between items-center mb-6">
+
+
+<h3 class="text-[#111418] dark:text-white text-lg font-bold">Application Funnel</h3>
+<span class="material-symbols-outlined text-[#637588] dark:text-[#93adc8]">bar_chart</span>
+</div>
+<div class="grid gap-y-6 grid-cols-[auto_1fr] items-center">
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Applied</p>
+<div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-blue-400/30 dark:bg-blue-900/40 w-[100%] border-l-4 border-blue-400"></div>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">24</span>
+</div>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Interviewing</p>
+<div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-primary/40 dark:bg-primary/30 w-[45%] border-l-4 border-primary"></div>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">11</span>
+</div>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Offer</p>
+<div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-green-500/40 dark:bg-green-500/30 w-[15%] border-l-4 border-green-500"></div>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">1</span>
+</div>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Rejected</p>
+<div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-red-500/40 dark:bg-red-500/30 w-[20%] border-l-4 border-red-500"></div>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">5</span>
+</div>
+</div>
+</div>
+
+
+<div class="bg-white dark:bg-surface-dark rounded-xl p-6 border border-[#e6e8eb] dark:border-transparent shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-[#111418] dark:text-white text-lg font-bold">Upcoming Deadlines</h3>
+<button class="text-sm font-medium text-primary hover:underline">View Calendar</button>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-4 p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#111a22] border-l-4 border-primary">
+<div class="flex flex-col items-center justify-center w-12 h-12 bg-white dark:bg-surface-dark rounded-md shadow-sm">
+<span class="text-[10px] font-bold text-red-500 uppercase">Oct</span>
+<span class="text-lg font-bold text-[#111418] dark:text-white">24</span>
+</div>
+<div class="flex-1">
+<p class="text-[#111418] dark:text-white text-base font-medium">Amazon Technical Interview</p>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm">2:00 PM - 3:00 PM EST • Zoom</p>
+</div>
+<div class="hidden sm:block">
+<span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold">Tomorrow</span>
+</div>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#111a22] border-l-4 border-orange-400">
+<div class="flex flex-col items-center justify-center w-12 h-12 bg-white dark:bg-surface-dark rounded-md shadow-sm">
+<span class="text-[10px] font-bold text-red-500 uppercase">Oct</span>
+<span class="text-lg font-bold text-[#111418] dark:text-white">28</span>
+</div>
+<div class="flex-1">
+<p class="text-[#111418] dark:text-white text-base font-medium">Stripe Application Close</p>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm">Frontend Intern Role</p>
+</div>
+<div class="hidden sm:block">
+<span class="px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-bold">4 Days</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1">
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-[#e6e8eb] dark:border-transparent shadow-sm h-full flex flex-col">
+<div class="p-6 pb-2">
+<h3 class="text-[#111418] dark:text-white text-lg font-bold">Recent Activity</h3>
+</div>
+<div class="flex flex-col p-4 gap-2 overflow-y-auto">
+<div class="flex gap-3 p-3 hover:bg-[#f0f2f4] dark:hover:bg-[#111a22] rounded-lg transition-colors group/item">
+<div class="mt-1 flex-shrink-0 h-8 w-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-sm font-medium">Offer Received</p>
+<p class="text-[#637588] dark:text-[#93adc8] text-xs">Congratulations! You received an offer from <span class="text-[#111418] dark:text-white font-medium">Microsoft</span>.</p>
+<p class="text-[#637588]/60 dark:text-[#93adc8]/60 text-[10px] mt-1">2 hours ago</p>
+</div>
+</div>
+<div class="flex gap-3 p-3 hover:bg-[#f0f2f4] dark:hover:bg-[#111a22] rounded-lg transition-colors group/item">
+<div class="mt-1 flex-shrink-0 h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit_calendar</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-sm font-medium">Interview Scheduled</p>
+<p class="text-[#637588] dark:text-[#93adc8] text-xs">Technical round with <span class="text-[#111418] dark:text-white font-medium">Amazon</span> set for Oct 24.</p>
+<p class="text-[#637588]/60 dark:text-[#93adc8]/60 text-[10px] mt-1">5 hours ago</p>
+</div>
+</div>
+<div class="flex gap-3 p-3 hover:bg-[#f0f2f4] dark:hover:bg-[#111a22] rounded-lg transition-colors group/item">
+<div class="mt-1 flex-shrink-0 h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-300">
+<span class="material-symbols-outlined" style="font-size: 18px;">send</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-sm font-medium">Applied to Netflix</p>
+<p class="text-[#637588] dark:text-[#93adc8] text-xs">Application for <span class="text-[#111418] dark:text-white font-medium">Software Engineer Intern</span> submitted.</p>
+<p class="text-[#637588]/60 dark:text-[#93adc8]/60 text-[10px] mt-1">1 day ago</p>
+</div>
+</div>
+<div class="flex gap-3 p-3 hover:bg-[#f0f2f4] dark:hover:bg-[#111a22] rounded-lg transition-colors group/item">
+<div class="mt-1 flex-shrink-0 h-8 w-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-500">
+<span class="material-symbols-outlined" style="font-size: 18px;">cancel</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-sm font-medium">Rejected by Uber</p>
+<p class="text-[#637588] dark:text-[#93adc8] text-xs">Application status updated to Rejected.</p>
+<p class="text-[#637588]/60 dark:text-[#93adc8]/60 text-[10px] mt-1">2 days ago</p>
+</div>
+</div>
+<div class="flex gap-3 p-3 hover:bg-[#f0f2f4] dark:hover:bg-[#111a22] rounded-lg transition-colors group/item">
+<div class="mt-1 flex-shrink-0 h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-300">
+<span class="material-symbols-outlined" style="font-size: 18px;">send</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-sm font-medium">Applied to Spotify</p>
+<p class="text-[#637588] dark:text-[#93adc8] text-xs">Application for <span class="text-[#111418] dark:text-white font-medium">Backend Intern</span> submitted.</p>
+<p class="text-[#637588]/60 dark:text-[#93adc8]/60 text-[10px] mt-1">3 days ago</p>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-[#e6e8eb] dark:border-[#2d3b4a] mt-auto">
+<button class="w-full py-2 text-sm font-medium text-[#637588] dark:text-[#93adc8] hover:text-[#111418] dark:hover:text-white transition-colors">View All Activity</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

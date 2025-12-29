@@ -15,6 +15,11 @@ from django.db.models import Count
 
 # Create your views here.
 @login_required
+def dashboard_View(request):
+    jobs = Job.objects.filter(user=request.user)
+
+    return render(request, "dashboard/dashboard.html", {"jobs": jobs})
+@login_required
 def myJobs_View(request):
     jobs = Job.objects.filter(user=request.user)
 
