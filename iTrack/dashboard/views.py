@@ -15,7 +15,7 @@ from django.db.models import Count
 
 # Create your views here.
 @login_required
-def dashboard_View(request):
+def myJobs_View(request):
     jobs = Job.objects.filter(user=request.user)
 
     # search
@@ -38,7 +38,7 @@ def dashboard_View(request):
     )
     count_map = {c["status"]: c["count"] for c in counts}
 
-    return render(request, "dashboard/dashboard.html", {
+    return render(request, "dashboard/myJobs.html", {
         "jobs": jobs,
         "count_map": count_map,
         "query": query,   # so the input stays filled
