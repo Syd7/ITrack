@@ -5,7 +5,7 @@ from .views import createJob_View, createCompany_View, createScrapedJob_View, sc
 app_name = "dashboard"
 
 urlpatterns = [
-    path('dashboard/', myJobs_View, name='myJobs'),
+    path('dashboard/myJobs', myJobs_View, name='myJobs'),
     path('dashboard/createJob', createJob_View, name='createJob'),
     path('dashboard/createCompany', createCompany_View, name='createCompany_View'),
     path('dashboard/createScrapedJob', createScrapedJob_View, name='createScrapedJob_View'),
