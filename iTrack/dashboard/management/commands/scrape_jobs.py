@@ -1,47 +1,59 @@
 from django.core.management.base import BaseCommand
-import requests
-from bs4 import BeautifulSoup
+from jobspy import scrape_jobs
 from dashboard.models import ScrapedJob, Company
-
+import pandas as pd
+import os
 
 class Command(BaseCommand):
-    help = "Scrape jobs from python.org"
+    help = "Scrape jobs using python-jobspy and export to Excel"
 
     def handle(self, *args, **kwargs):
-        url = "https://www.python.org/jobs/"
-        headers = {"User-Agent": "Mozilla/5.0"}
+        self.stdout.write("Scraping jobs using python-jobspy...")
 
-        response = requests.get(url, headers=headers)
-        soup = BeautifulSoup(response.text, "html.parser")
+        # ------------------------
+        # Scrape jobs
+        # ------------------------
+        jobs = scrape_jobs(
+            site_name=["indeed", "google", "zip_recruiter", "glassdoor"],
+            search_term="Tech Intern",
+            location="Philippines",
+            results_wanted=50,
+            hours_old=72,
+            country_indeed="Philippines"
+        )
 
-        jobs = soup.select("ol.list-recent-jobs li")
+        if jobs.empty:
+            self.stdout.write(self.style.WARNING("No jobs found!"))
+            return
 
+        # Normalize columns
+        jobs.columns = jobs.columns.str.upper()
+
+        # ------------------------
+        # Save to Excel
+        # ------------------------
+        excel_path = os.path.join(os.getcwd(), "scraped_jobs.xlsx")
+        try:
+            jobs.to_excel(excel_path, index=False)
+            self.stdout.write(self.style.SUCCESS(f"Jobs exported to {excel_path}"))
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Failed to export Excel: {e}"))
+
+        # ------------------------
+        # Save to Django models
+        # ------------------------
         created_count = 0
+        for _, row in jobs.iterrows():
+            company_name = row.get("COMPANY", "Unknown Company")
+            title = row.get("TITLE", "No Title")
+            link = row.get("JOB_URL", "")
+            source = row.get("SITE", "Unknown")
 
-        for job in jobs:
-            title_el = job.select_one("h2 a")
-            company_el = job.select_one(".listing-company-name")
-            link_el = job.select_one("h2 a")
-
-            if not title_el or not company_el or not link_el:
+            if not link:
                 continue
 
-            title = title_el.text.strip()
-            company_name = company_el.text.replace("Company:", "").strip()
-            link = "https://www.python.org" + link_el["href"]
-
-            raw_company = company_name
-            if raw_company.startswith("New "):
-                raw_company = raw_company[4:].strip()
-
-            if raw_company.startswith(title):
-                company_name = raw_company[len(title):].strip(" —-")
-            else:
-                company_name = raw_company
-
             company, _ = Company.objects.get_or_create(
-                company_name=company_name,
-                defaults={"description": ""}
+                company_name=company_name, defaults={"description": ""}
             )
 
             job_obj, created = ScrapedJob.objects.get_or_create(
@@ -49,14 +61,12 @@ class Command(BaseCommand):
                 defaults={
                     "title": title,
                     "company": company,
-                    "source": "python.org"
-                },
+                    "source": source
+                }
             )
-
             if created:
                 created_count += 1
 
-
         self.stdout.write(
-            self.style.SUCCESS(f"Scraped {created_count} new jobs")
+            self.style.SUCCESS(f"Scraped and saved {created_count} new jobs to DB")
         )
