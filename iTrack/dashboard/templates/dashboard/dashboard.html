@@ -62,7 +62,7 @@
 <div class="container mx-auto max-w-7xl px-4 md:px-8 py-6">
 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
 <div class="flex flex-col gap-1">
-<p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium uppercase tracking-wide">Good evening, Alex</p>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium uppercase tracking-wide">Hello, {{user.username}}</p>
 <h1 class="text-[#111418] dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Dashboard</h1>
 <p class="text-[#637588] dark:text-[#93adc8] text-base font-normal">Track your internship applications and upcoming interviews.</p>
 </div>
@@ -79,11 +79,11 @@
 <div class="p-2 rounded-lg bg-blue-50 dark:bg-[#233648] text-primary dark:text-[#93adc8]">
 <span class="material-symbols-outlined">folder</span>
 </div>
-<span class="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-full">+2 this week</span>
+<span class="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-full">+2 this week (not yet implemented)</span>
 </div>
 <div>
 <p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium">Total Applications</p>
-<p class="text-[#111418] dark:text-white text-3xl font-bold mt-1">24</p>
+<p class="text-[#111418] dark:text-white text-3xl font-bold mt-1">{{total_jobs}}</p>
 </div>
 </div>
 <div class="flex flex-col justify-between p-5 rounded-xl bg-white dark:bg-surface-dark border border-[#e6e8eb] dark:border-transparent shadow-sm relative overflow-hidden group">
@@ -94,8 +94,8 @@
 </div>
 </div>
 <div>
-<p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium">Interviews Scheduled</p>
-<p class="text-primary text-3xl font-bold mt-1">3</p>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium">Applications Sent</p>
+<p class="text-primary text-3xl font-bold mt-1">{{ count_map.applied|default:0}}</p>
 </div>
 </div>
 <div class="flex flex-col justify-between p-5 rounded-xl bg-white dark:bg-surface-dark border border-[#e6e8eb] dark:border-transparent shadow-sm">
@@ -106,7 +106,7 @@
 </div>
 <div>
 <p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium">Offers Received</p>
-<p class="text-[#111418] dark:text-white text-3xl font-bold mt-1">1</p>
+<p class="text-[#111418] dark:text-white text-3xl font-bold mt-1">{{ count_map.offer|default:0 }}</p>
 </div>
 </div>
 <div class="flex flex-col justify-between p-5 rounded-xl bg-white dark:bg-surface-dark border border-[#e6e8eb] dark:border-transparent shadow-sm">
@@ -117,7 +117,7 @@
 </div>
 <div>
 <p class="text-[#637588] dark:text-[#93adc8] text-sm font-medium">Rejections</p>
-<p class="text-[#111418] dark:text-white text-3xl font-bold mt-1">5</p>
+<p class="text-[#111418] dark:text-white text-3xl font-bold mt-1">{{ count_map.rejected|default:0 }}</p>
 </div>
 </div>
 </div>
@@ -131,25 +131,25 @@
 <span class="material-symbols-outlined text-[#637588] dark:text-[#93adc8]">bar_chart</span>
 </div>
 <div class="grid gap-y-6 grid-cols-[auto_1fr] items-center">
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Interested</p>
+<div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-blue-400/30 dark:bg-blue-900/40 border-l-4 border-blue-400" style="width: {{ percent_map.interested|default:0 }}%;"></div>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">{{ count_map.interested|default:0 }}</span>
+</div>
 <p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Applied</p>
 <div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
-<div class="absolute top-0 left-0 h-full bg-blue-400/30 dark:bg-blue-900/40 w-[100%] border-l-4 border-blue-400"></div>
-<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">24</span>
-</div>
-<p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Interviewing</p>
-<div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
-<div class="absolute top-0 left-0 h-full bg-primary/40 dark:bg-primary/30 w-[45%] border-l-4 border-primary"></div>
-<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">11</span>
-</div>
-<p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Offer</p>
-<div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
-<div class="absolute top-0 left-0 h-full bg-green-500/40 dark:bg-green-500/30 w-[15%] border-l-4 border-green-500"></div>
-<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">1</span>
+<div class="absolute top-0 left-0 h-full bg-primary/40 dark:bg-primary/30 border-l-4 border-primary" style="width: {{ percent_map.applied|default:0 }}%;"></div>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">{{ count_map.applied|default:0 }}</span>
 </div>
 <p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Rejected</p>
 <div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
-<div class="absolute top-0 left-0 h-full bg-red-500/40 dark:bg-red-500/30 w-[20%] border-l-4 border-red-500"></div>
-<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">5</span>
+    <div class="absolute top-0 left-0 h-full bg-red-500/40 dark:bg-red-500/30 border-l-4 border-red-500" style="width: {{ percent_map.rejected|default:0 }}%;"></div>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">{{ count_map.rejected|default:0 }}</span>
+</div>
+<p class="text-[#637588] dark:text-[#93adc8] text-sm font-bold tracking-wide w-24">Offer</p>
+<div class="h-8 w-full bg-[#f0f2f4] dark:bg-[#111a22] rounded-r-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-green-500/40 dark:bg-green-500/30 w-[15%] border-l-4 border-green-500" style="width: {{ percent_map.offer|default:0 }}%;"></div>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-[#637588] dark:text-[#93adc8]">{{ count_map.offer|default:0 }}</span>
 </div>
 </div>
 </div>
@@ -157,7 +157,7 @@
 
 <div class="bg-white dark:bg-surface-dark rounded-xl p-6 border border-[#e6e8eb] dark:border-transparent shadow-sm">
 <div class="flex justify-between items-center mb-4">
-<h3 class="text-[#111418] dark:text-white text-lg font-bold">Upcoming Deadlines</h3>
+<h3 class="text-[#111418] dark:text-white text-lg font-bold">Upcoming Deadlines (maybe replace with patreon)</h3>
 <button class="text-sm font-medium text-primary hover:underline">View Calendar</button>
 </div>
 <div class="flex flex-col gap-3">
@@ -193,7 +193,7 @@
 <div class="lg:col-span-1">
 <div class="bg-white dark:bg-surface-dark rounded-xl border border-[#e6e8eb] dark:border-transparent shadow-sm h-full flex flex-col">
 <div class="p-6 pb-2">
-<h3 class="text-[#111418] dark:text-white text-lg font-bold">Recent Activity</h3>
+<h3 class="text-[#111418] dark:text-white text-lg font-bold">Recent Activity (Not yet implemented)</h3>
 </div>
 <div class="flex flex-col p-4 gap-2 overflow-y-auto">
 <div class="flex gap-3 p-3 hover:bg-[#f0f2f4] dark:hover:bg-[#111a22] rounded-lg transition-colors group/item">

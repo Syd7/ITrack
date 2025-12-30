@@ -17,8 +17,35 @@ from django.db.models import Count
 @login_required
 def dashboard_View(request):
     jobs = Job.objects.filter(user=request.user)
+    total_jobs = jobs.count()
+    counts = (
+        jobs
+        .values("status")
+        .annotate(count=Count("id"))
+    )
 
-    return render(request, "dashboard/dashboard.html", {"jobs": jobs})
+    count_map = {c["status"]: c["count"] for c in counts}
+
+    total = sum(count_map.values()) or 1  # prevent divide-by-zero
+
+    percent_map = {
+        "interested": (count_map.get("interested", 0) / total) * 100,
+        "applied": (count_map.get("applied", 0) / total) * 100,
+        "rejected": (count_map.get("rejected", 0) / total) * 100,
+        "offer": (count_map.get("offer", 0) / total) * 100,
+    }
+
+    return render(
+        request,
+        "dashboard/dashboard.html",
+        {
+            "jobs": jobs,
+            "count_map": count_map,
+            "percent_map": percent_map,
+            "total_jobs": total_jobs,
+        },
+    )
+
 @login_required
 def myJobs_View(request):
     jobs = Job.objects.filter(user=request.user)
