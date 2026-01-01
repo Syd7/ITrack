@@ -82,13 +82,26 @@ def createJob_View(request):
     if request.method == 'POST':
         form = Job_Form(request.POST)
         if form.is_valid():
-            schedule = form.save()
+            job = form.save(commit=False)   
+            job.user = request.user        
+            job.save()                     
+
+            ScrapedJob.objects.get_or_create(
+                link=job.link,            
+                defaults={
+                    'title': job.title,
+                    'company': job.company,
+                    'source': 'manual',
+                }
+            )
+
+            return redirect('dashboard:createJob')
     else:
         form = Job_Form()
 
     return render(request, 'dashboard/createJob.html', {
         'form': form
-    })   
+    })
 
 @login_required
 def createCompany_View(request):
@@ -108,13 +121,17 @@ def createScrapedJob_View(request):
     if request.method == 'POST':
         form = ScrapedJobForm(request.POST)
         if form.is_valid():
-            schedule = form.save()
+            scraped_job, created = ScrapedJob.objects.get_or_create(
+                link=form.cleaned_data['link'],
+                defaults=form.cleaned_data
+            )
+            return redirect('dashboard:scraped_jobs')
     else:
         form = ScrapedJobForm()
 
-    return render(request, 'dashboard/createScrapedJob.html', {
-        'form': form
-    })   
+    return render(request, 'dashboard/createScrapedJob.html', {'form': form})
+
+
 
 
 
