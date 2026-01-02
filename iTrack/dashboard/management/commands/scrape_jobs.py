@@ -14,10 +14,10 @@ class Command(BaseCommand):
         # Scrape jobs
         # ------------------------
         jobs = scrape_jobs(
-            site_name=["indeed", "google", "zip_recruiter", "glassdoor"],
+            site_name=["linkedin", "indeed", "google"],
             search_term="Tech Intern",
             location="Philippines",
-            results_wanted=50,
+            results_wanted=100,
             hours_old=72,
             country_indeed="Philippines"
         )
