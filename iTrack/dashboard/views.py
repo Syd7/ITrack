@@ -82,26 +82,20 @@ def createJob_View(request):
     if request.method == 'POST':
         form = Job_Form(request.POST)
         if form.is_valid():
-            job = form.save(commit=False)   
-            job.user = request.user        
-            job.save()                     
+            job = form.save(commit=False)
+            job.user = request.user
+            job.source = "manual"
+            job.scraped_job = None  # explicit + clear
+            job.save()
 
-            ScrapedJob.objects.get_or_create(
-                link=job.link,            
-                defaults={
-                    'title': job.title,
-                    'company': job.company,
-                    'source': 'manual',
-                }
-            )
-
-            return redirect('dashboard:createJob')
+            return redirect('dashboard:dashboard')  # change if needed
     else:
         form = Job_Form()
 
     return render(request, 'dashboard/createJob.html', {
         'form': form
     })
+
 
 @login_required
 def createCompany_View(request):

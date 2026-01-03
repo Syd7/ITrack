@@ -3,79 +3,60 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Manually Add Job - InternTracker</title>
-<!-- Fonts -->
+<title>Saved Job Opportunities - InternTracker</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Theme Configuration -->
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#137fec",
-              "background-light": "#f6f7f8",
-              "background-dark": "#101922",
-              "surface-dark": "#192633",
-              "border-dark": "#233648",
-              "text-secondary": "#92adc9",
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111a22",
+                        "surface-dark": "#1c2a38", 
+                        "border-dark": "#2b3f52",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
             },
-            fontFamily: {
-              "display": ["Lexend", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-          },
-        },
-      }
+        }
     </script>
-<style>
-        body {
-            font-family: 'Lexend', sans-serif;
-        }
-        /* Custom scrollbar for textarea */
-        textarea::-webkit-scrollbar {
-            width: 8px;
-        }
-        textarea::-webkit-scrollbar-track {
-            background: #192633; 
-        }
-        textarea::-webkit-scrollbar-thumb {
-            background: #324d67; 
-            border-radius: 4px;
-        }
-        textarea::-webkit-scrollbar-thumb:hover {
-            background: #4b6a88; 
-        }
-    </style>
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col font-display selection:bg-primary/30">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Layout Container -->
+<div class="layout-container flex h-full grow flex-col">
 <!-- Top Navigation -->
-<header class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-border-dark bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
-<div class="px-6 lg:px-12 py-3 flex items-center justify-between">
-<div class="flex items-center gap-4 text-slate-900 dark:text-white">
-<div class="size-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-2xl">radar</span>
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-background-dark px-4 py-3 md:px-10 lg:px-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">school</span>
 </div>
-<h2 class="text-lg font-bold leading-tight tracking-tight">InternTracker</h2>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">InternTracker</h2>
 </div>
-<div class="hidden md:flex flex-1 justify-end gap-8 items-center">
-<nav class="flex items-center gap-6">
-<a class="text-slate-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
-<a class="text-slate-900 dark:text-white text-sm font-medium transition-colors" href="#">My Applications</a>
-<a class="text-slate-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Find Jobs</a>
-<a class="text-slate-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Profile</a>
-</nav>
-<div class="h-6 w-px bg-gray-200 dark:bg-border-dark"></div>
-<div class="flex items-center gap-3 cursor-pointer group">
-<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-transparent group-hover:ring-primary/50 transition-all" data-alt="User profile avatar showing a smiling student" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDlT2Jb1EJIIKw0H6aTjNXG-LNKbUUAISazf0wjp46hwOkri4VCdg8hbJbh6ph3sC1eEYakg-C88QUO8kZ5k4K4Z1MaYEd6igWm7eeL0Nd7iLEa-DVK1Jl_miKqaIM-IaR0eRn0pCXCRMiir5NhZ6p-tSpI9IFEeXjnZSF_MtSlJ4pg8rHKpfrYdDP4r8On2OvOf7clcbCm1F85BaABwBuWKMz5HLJSqr9O6u33vfpRa-e7NSWeMnjnG7CIERPsqACkIxFUTHtsstA");'></div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-white text-sm font-medium leading-normal border-b-2 border-primary pb-1" href="{% url 'dashboard:dashboard' %}">Dashboard</a>
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'dashboard:myJobs' %}">My Jobs</a>
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'dashboard:scraped_jobs' %}">Scraped Jobs</a>
+<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="">Log Out</a>
 </div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-border-dark" data-alt="User profile picture placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyBEQ-CNmpsMq-_xzgK2MDtTtnuABZNfDpR8LEqXHeCx0zm5jXumUCgBEMzj-VT8FQKU5qzNLsCRvP6hnzt7maQpzMtg7InJ5AngMHr-0-NPwXtAkflXRxyC2oOFUhHwtQEOXFBmzRO8_sIbNpaXDoRFDNsK6N0xraIIWhl_be4NuQFquB7dXCWBVGfES_td_OtF20VWWDnUhcbPJWM9XWHr-Mk0MytM0O6sV45yvjdL85cEDgPKwIj1DmKO5MFnl_0gZIEY2Z_Pg");'></div>
 </div>
+</header>
+</header>
 <!-- Mobile Menu Icon -->
 <button class="md:hidden text-slate-600 dark:text-text-secondary">
 <span class="material-symbols-outlined">menu</span>
@@ -109,8 +90,15 @@
 </div>
 </div>
 <!-- Form Container -->
-<form class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-border-dark shadow-sm overflow-hidden">
+<form method ="POST" class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-border-dark shadow-sm overflow-hidden">
+  {% csrf_token %}
+
 <div class="p-6 sm:p-8 flex flex-col gap-8">
+   {% if form.errors %}
+            <div class="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 text-sm">
+                {{ form.errors }}
+            </div>
+            {% endif %}
 <!-- Section: Core Info -->
 <div>
 <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
@@ -122,32 +110,22 @@
 <label class="flex flex-col gap-2 group">
 <span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Job Title <span class="text-red-500">*</span></span>
 <div class="relative">
-<input class="w-full h-12 rounded-lg bg-gray-50 dark:bg-[#101922] border-gray-200 dark:border-[#324d67] text-slate-900 dark:text-white text-base px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-600 transition-all" placeholder="e.g. Software Engineer Intern" required="" type="text"/>
-</div>
+{{ form.title }}</div>
 </label>
 <!-- Company Name -->
 <label class="flex flex-col gap-2 group">
 <span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Company Name <span class="text-red-500">*</span></span>
 <div class="relative">
 <span class="absolute right-3 top-3 text-slate-400 dark:text-slate-600 material-symbols-outlined text-xl">business</span>
-<input class="w-full h-12 rounded-lg bg-gray-50 dark:bg-[#101922] border-gray-200 dark:border-[#324d67] text-slate-900 dark:text-white text-base pl-4 pr-10 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-600 transition-all" placeholder="e.g. Acme Corp" required="" type="text"/>
-</div>
+{{form.company}}</div>
 </label>
 <!-- Location -->
-<label class="flex flex-col gap-2 group">
-<span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Location</span>
-<div class="relative">
-<span class="absolute right-3 top-3 text-slate-400 dark:text-slate-600 material-symbols-outlined text-xl">location_on</span>
-<input class="w-full h-12 rounded-lg bg-gray-50 dark:bg-[#101922] border-gray-200 dark:border-[#324d67] text-slate-900 dark:text-white text-base pl-4 pr-10 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-600 transition-all" placeholder="e.g. Remote, NYC, San Francisco" type="text"/>
-</div>
-</label>
 <!-- Posting URL -->
 <label class="flex flex-col gap-2 group">
 <span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Job Posting URL</span>
 <div class="relative">
 <span class="absolute right-3 top-3 text-slate-400 dark:text-slate-600 material-symbols-outlined text-xl">link</span>
-<input class="w-full h-12 rounded-lg bg-gray-50 dark:bg-[#101922] border-gray-200 dark:border-[#324d67] text-slate-900 dark:text-white text-base pl-4 pr-10 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-600 transition-all" placeholder="https://company.com/jobs/..." type="url"/>
-</div>
+{{form.link}}</div>
 </label>
 </div>
 </div>
@@ -163,13 +141,7 @@
 <label class="flex flex-col gap-2 group">
 <span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Current Status</span>
 <div class="relative">
-<span class="absolute right-3 top-3.5 text-slate-400 dark:text-slate-600 material-symbols-outlined pointer-events-none">expand_more</span>
-<select class="w-full h-12 rounded-lg bg-gray-50 dark:bg-[#101922] border-gray-200 dark:border-[#324d67] text-slate-900 dark:text-white text-base pl-4 pr-10 focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none transition-all cursor-pointer">
-<option value="interested">Interested</option>
-<option selected="" value="applied">Applied</option>
-<option value="interviewing">Interviewing</option>
-<option value="offer">Offer Received</option>
-<option value="rejected">Rejected</option>
+                    {{ form.status }}
 </select>
 </div>
 </label>
@@ -192,7 +164,8 @@
 <label class="flex flex-col gap-2 group">
 <span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Description / Personal Notes</span>
 <div class="relative">
-<textarea class="w-full min-h-[160px] rounded-lg bg-gray-50 dark:bg-[#101922] border-gray-200 dark:border-[#324d67] text-slate-900 dark:text-white text-base p-4 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-600 transition-all resize-y" placeholder="Paste the job description here or add your own notes about the role, salary range, or specific requirements..."></textarea>
+                  {{ form.notes }}
+
 <!-- Simple toolbar simulation -->
 <div class="absolute bottom-3 left-3 flex gap-2">
 <button class="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-slate-500 dark:text-slate-400 transition-colors" title="Bold" type="button">
