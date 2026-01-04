@@ -121,50 +121,64 @@
 </label>
 <!-- Location -->
 <!-- Posting URL -->
-<label class="flex flex-col gap-2 group">
+ </label>
+<label class="flex flex-col gap-2 group md:col-span-2">
 <span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Job Posting URL</span>
 <div class="relative">
 <span class="absolute right-3 top-3 text-slate-400 dark:text-slate-600 material-symbols-outlined text-xl">link</span>
-{{form.link}}</div>
+{{form.link}}
+</div>
 </label>
-</div>
-</div>
-<div class="h-px bg-gray-200 dark:bg-border-dark w-full"></div>
 <!-- Section: Status & Dates -->
-<div>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">pending_actions</span>
-                            Application Status
-                        </h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<!-- Status Dropdown -->
-<label class="flex flex-col gap-2 group">
-<span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Current Status</span>
-<div class="relative">
+<div class="md:col-span-2">
+    <div class="h-px bg-gray-200 dark:bg-border-dark w-full"></div>
+
+    <div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2 mt-8">
+            <span class="material-symbols-outlined text-primary">pending_actions</span>
+            Application Status
+        </h3>
+
+        <div class="grid grid-cols-1 gap-6">
+            <label class="flex flex-col gap-2 group">
+                <span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">
+                    Current Status
+                </span>
+                <div class="relative">
+                    <span class="absolute right-3 top-3.5 text-slate-400 dark:text-slate-600 material-symbols-outlined pointer-events-none">
+                        expand_more
+                    </span>
                     {{ form.status }}
-</select>
+                </div>
+
+                {% if form.status.errors %}
+                <p class="text-sm text-red-500 mt-1">
+                    {{ form.status.errors.0 }}
+                </p>
+                {% endif %}
+            </label>
+        </div>
+    </div>
 </div>
-</label>
-<!-- Deadline -->
-<label class="flex flex-col gap-2 group">
-<span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Application Deadline</span>
-<div class="relative">
-<input class="w-full h-12 rounded-lg bg-gray-50 dark:bg-[#101922] border-gray-200 dark:border-[#324d67] text-slate-900 dark:text-white text-base px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-600 transition-all [color-scheme:light] dark:[color-scheme:dark]" type="date"/>
-</div>
-</label>
-</div>
-</div>
-<div class="h-px bg-gray-200 dark:bg-border-dark w-full"></div>
+
+
 <!-- Section: Notes -->
-<div>
-<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">description</span>
-                            Notes &amp; Description
-                        </h3>
-<label class="flex flex-col gap-2 group">
-<span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">Description / Personal Notes</span>
-<div class="relative">
-                  {{ form.notes }}
+<div class="md:col-span-2">
+    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary">description</span>
+        Notes &amp; Description
+    </h3>
+
+    <label class="flex flex-col gap-2 group">
+        <span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-focus-within:text-primary transition-colors">
+            Description / Personal Notes
+        </span>
+
+        <div class="relative">
+            {{ form.notes }}
+        </div>
+    </label>
+</div>
 
 <!-- Simple toolbar simulation -->
 <div class="absolute bottom-3 left-3 flex gap-2">
