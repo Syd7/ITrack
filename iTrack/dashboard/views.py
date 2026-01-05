@@ -8,6 +8,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.db.models import Count
+from django.utils import timezone
+from django.db.models import Count
+from datetime import timedelta
+
 
 
 
@@ -27,6 +31,8 @@ def dashboard_View(request):
     count_map = {c["status"]: c["count"] for c in counts}
 
     total = sum(count_map.values()) or 1  # prevent divide-by-zero
+    today = timezone.now().date()
+    new_jobs_today = jobs.filter(created_at__date=today).count()
 
     percent_map = {
         "interested": (count_map.get("interested", 0) / total) * 100,
@@ -43,6 +49,7 @@ def dashboard_View(request):
             "count_map": count_map,
             "percent_map": percent_map,
             "total_jobs": total_jobs,
+            "new_jobs_today": new_jobs_today,
         },
     )
 
