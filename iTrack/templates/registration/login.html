@@ -1,20 +1,150 @@
-{% extends "base.html" %}
-{% load static %}
-        <link rel="stylesheet" href="{% static 'styles.css' %}">
+<!DOCTYPE html>
 
-{% block title %}Log In{% endblock %}
-{% block head %}{% endblock %}
-
-{% block content %}
-<div class="LogInContainer">
-    <div class="LoginBox">
-        <form method="post">
-            {% csrf_token %}
-            <h1>Login</h1>
-            <input type="text" name="username" placeholder="Username" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <button type="submit">Login</button>
-        </form>
-    </div>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>InternTrack - Login</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#233648] px-6 lg:px-10 py-4 bg-white dark:bg-[#111a22]">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
 </div>
-{% endblock %}
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] dark:text-white text-slate-900">InternTrack</h2>
+</div>
+<div class="hidden sm:flex gap-4">
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors" href="#">About</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors" href="#">Features</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors" href="#">Contact</a>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+<div class="w-full max-w-[1000px] bg-white dark:bg-[#192633] rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
+<!-- Left Side: Hero/Image -->
+<div class="hidden md:flex md:w-1/2 bg-cover bg-center relative min-h-[500px]" data-alt="Group of students working together on laptops in a modern library" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB1do1omFx7KCHU_XLVnhlrWmtHy_zm9nSCLWmy8SVFZvHfhvBeQoZHlDO46IeQb8xfnGiPHta1dj83IWFmhZ6IBcyZ7XKzGQgNy0oYpU-uo7C4NViruXEuW4PTBjQrMqGC-AQ3nh7fp-mHk0bhp4qsGWxAkjAdZkyQalbQTkYVINRC_5elgKdjA_N_NfbEBtO4De_2l-mLTtkqu7lqMCIvdlL_6VFBvxBf9bUoG6M3kFU-G4lGw05yYFKAuXxkLQAZKfTIeu_mTps');">
+<div class="absolute inset-0 bg-gradient-to-t from-[#101922] via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-0 left-0 p-8 z-10">
+<div class="mb-4 inline-flex items-center justify-center rounded-lg bg-primary/20 p-2 backdrop-blur-sm">
+<span class="material-symbols-outlined text-primary">rocket_launch</span>
+</div>
+<h2 class="text-3xl font-bold text-white mb-2 leading-tight">Your Future Awaits</h2>
+<p class="text-slate-200 text-lg opacity-90">Join thousands of students tracking their career progress and landing dream internships.</p>
+</div>
+</div>
+<!-- Right Side: Form -->
+<div class="w-full md:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+<!-- Mobile Header for context -->
+<div class="md:hidden mb-6 text-center">
+<h1 class="text-2xl font-bold dark:text-white text-slate-900">InternTrack</h1>
+</div>
+<div class="mb-8">
+<h1 class="text-3xl font-black leading-tight tracking-[-0.033em] dark:text-white text-slate-900 mb-2">Welcome back</h1>
+<p class="text-slate-500 dark:text-[#92adc9] text-base font-normal">Please enter your details to sign in.</p>
+</div>
+<!-- Tabs -->
+<div class="mb-8 border-b border-slate-200 dark:border-[#324d67]">
+<div class="flex gap-8">
+<button class="pb-3 border-b-[3px] border-primary text-primary dark:text-white font-bold text-sm tracking-[0.015em] transition-colors">
+                                Login
+                            </button>
+<button class="pb-3 border-b-[3px] border-transparent text-slate-500 dark:text-[#92adc9] hover:text-slate-700 dark:hover:text-slate-300 font-bold text-sm tracking-[0.015em] transition-colors">
+                                Register
+                            </button>
+</div>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-5">
+<!-- Email Field -->
+<div class="flex flex-col gap-2">
+<label class="text-slate-700 dark:text-white text-sm font-semibold leading-normal">Email Address</label>
+<div class="relative group">
+<input class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]" placeholder="student@university.edu" required="" type="email"/>
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400 dark:text-[#92adc9]">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="text-slate-700 dark:text-white text-sm font-semibold leading-normal">Password</label>
+<a class="text-xs font-semibold text-primary hover:text-blue-500 transition-colors" href="#">Forgot Password?</a>
+</div>
+<div class="relative group">
+<input class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]" placeholder="••••••••" required="" type="password"/>
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400 dark:text-[#92adc9]">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<button class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600 dark:text-[#92adc9] dark:hover:text-white transition-colors cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="mt-2 w-full h-12 bg-primary hover:bg-blue-600 text-white font-bold rounded-lg transition-all shadow-[0_4px_14px_0_rgba(19,127,236,0.39)] hover:shadow-[0_6px_20px_rgba(19,127,236,0.23)] hover:-translate-y-0.5 active:translate-y-0 text-sm flex items-center justify-center gap-2" type="submit">
+<span>Sign In</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-slate-200 dark:border-[#324d67]"></div>
+</div>
+<div class="relative flex justify-center text-xs uppercase">
+<span class="bg-white dark:bg-[#192633] px-3 text-slate-500 dark:text-[#92adc9]">Or continue with</span>
+</div>
+</div>
+<!-- Social Login -->
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 h-10 rounded-lg border border-slate-200 dark:border-[#324d67] bg-white dark:bg-[#111a22] hover:bg-slate-50 dark:hover:bg-[#1e2a36] transition-colors text-slate-700 dark:text-white text-sm font-bold">
+<svg class="h-4 w-4" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.283 10.356h-8.327v3.451h4.792c-.446 2.193-2.313 3.453-4.792 3.453a5.27 5.27 0 0 1-5.279-5.28 5.27 5.27 0 0 1 5.279-5.279c1.259 0 2.397.447 3.29 1.178l2.6-2.599c-1.584-1.381-3.615-2.233-5.89-2.233a8.908 8.908 0 0 0-8.934 8.934 8.907 8.907 0 0 0 8.934 8.934c4.467 0 8.529-3.249 8.529-8.934 0-.528-.081-1.097-.202-1.625z"></path>
+</svg>
+                            Google
+                        </button>
+<button class="flex items-center justify-center gap-2 h-10 rounded-lg border border-slate-200 dark:border-[#324d67] bg-white dark:bg-[#111a22] hover:bg-slate-50 dark:hover:bg-[#1e2a36] transition-colors text-slate-700 dark:text-white text-sm font-bold">
+<svg aria-hidden="true" class="h-4 w-4" fill="currentColor" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" fill-rule="evenodd"></path>
+</svg>
+                            LinkedIn
+                        </button>
+</div>
+<div class="mt-8 text-center">
+<p class="text-slate-500 dark:text-[#92adc9] text-sm">Don't have an account? <a class="text-primary hover:text-blue-500 font-bold transition-colors" href="#">Create one now</a></p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
