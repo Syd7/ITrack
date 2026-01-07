@@ -178,14 +178,24 @@ def scraped_jobsView(request):
 
 def login_view(request):
     if request.method == "POST":
-        username = request.POST.get("username")
+        email = request.POST.get("email")
         password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
+
+        try:
+            user_obj = User.objects.get(email=email)
+            user = authenticate(
+                request,
+                username=user_obj.username,
+                password=password
+            )
+        except User.DoesNotExist:
+            user = None
+
         if user is not None:
             login(request, user)
-            return redirect("dashboard")  
+            return redirect("dashboard:dashboard")
         else:
-            error = "Invalid username or password"
+            error = "Invalid email or password"
             return render(request, "registration/login.html", {"error": error})
 
     return render(request, "registration/login.html")
