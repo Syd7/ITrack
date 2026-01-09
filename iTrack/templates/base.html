@@ -1,37 +1,102 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE-edge">
-        <meta name="viewport" content="width=device-width, initialize-scale=1.0">
-        <link rel="stylesheet" href="{% static 'styles.css' %}">
-        <title>{% block title %}Title{% endblock %}</title>
-         {% block head %}
-        {% endblock %}
-    
-    </head>
-    <body>
-        <header class="header">
-            <div class = "logocontainer">
-                <a class="name">Job Tracker</a>
-                </div>
-                <nav class = "navbar">
-                    {% if request.user.is_authenticated %}
-                        <a href="{% url 'dashboard:scraped_jobs' %}" class ="scraped_jobs">Scraped Jobs</a>
-                        <a href="{% url 'dashboard:dashboard' %}" class ="dashboard">My Dashboard</a>
-                        {% else %}
-                            <a class="logout" href="{% url 'login' %}">Login</a>
-                    {% endif %}
-                </nav>
-            </div>
-        </header>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <main>
-            {% block content %} {% endblock %}
-        </main>
-        <!-- allows user to change interestand stuff without saving-->
-        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    </body>
+    <title>{% block title %}InternTracker{% endblock %}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Noto+Sans:wght@300..900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111a22",
+                        "surface-dark": "#1c2a38",
+                        "border-dark": "#2b3f52",
+                    },
+                    fontFamily: {
+                        display: ["Lexend", "sans-serif"],
+                        body: ["Noto Sans", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased">
+
+<div class="relative flex min-h-screen w-full flex-col">
+
+    <!-- ✅ HEADER / NAVBAR -->
+    <header class="flex items-center justify-between border-b border-border-dark bg-background-dark px-4 py-3 md:px-10 lg:px-20">
+        <div class="flex items-center gap-4 text-white">
+            <span class="material-symbols-outlined text-primary text-3xl">school</span>
+            <h2 class="text-xl font-bold">InternTracker</h2>
+        </div>
+
+        <nav class="hidden md:flex gap-9">
+    <a href="{% url 'dashboard:dashboard' %}"
+       class="text-sm font-medium pb-1
+       {% if request.resolver_match.url_name == 'dashboard' %}
+           text-white border-b-2 border-primary
+       {% else %}
+           text-gray-400 hover:text-white
+       {% endif %}">
+        Dashboard
+    </a>
+
+    <a href="{% url 'dashboard:myJobs' %}"
+       class="text-sm font-medium pb-1
+       {% if request.resolver_match.url_name == 'myJobs' %}
+           text-white border-b-2 border-primary
+       {% else %}
+           text-gray-400 hover:text-white
+       {% endif %}">
+        My Jobs
+    </a>
+
+    <a href="{% url 'dashboard:scraped_jobs' %}"
+       class="text-sm font-medium pb-1
+       {% if request.resolver_match.url_name == 'scraped_jobs' %}
+           text-white border-b-2 border-primary
+       {% else %}
+           text-gray-400 hover:text-white
+       {% endif %}">
+        Scraped Jobs
+    </a>
+
+    <a href="{% url 'logout' %}"
+       class="text-sm font-medium text-gray-400 hover:text-white">
+        Log Out
+    </a>
+</nav>
+
+    </header>
+
+    <!-- ✅ PAGE CONTENT -->
+    <main class="flex-1 overflow-y-auto">
+        {% block content %}{% endblock %}
+    </main>
+
+</div>
+
+{% block extra_js %}{% endblock %}
+</body>
 </html>

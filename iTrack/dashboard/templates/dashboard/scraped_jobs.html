@@ -1,62 +1,10 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Saved Job Opportunities - InternTracker</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#137fec",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#111a22",
-                        "surface-dark": "#1c2a38", 
-                        "border-dark": "#2b3f52",
-                    },
-                    fontFamily: {
-                        "display": ["Lexend", "sans-serif"],
-                        "body": ["Noto Sans", "sans-serif"],
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
-            },
-        }
-    </script>
-<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+{% block title %}Scraped Jobs – InternTracker{% endblock %}
 
-</head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased">
-<div class="relative flex min-h-screen w-full flex-col">
-<!-- Layout Container -->
-<div class="layout-container flex h-full grow flex-col">
-<!-- Top Navigation -->
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-background-dark px-4 py-3 md:px-10 lg:px-20">
-<div class="flex items-center gap-4 text-white">
-<div class="size-8 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-3xl">school</span>
-</div>
-<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">InternTracker</h2>
-</div>
-<div class="flex flex-1 justify-end gap-8">
-<div class="hidden md:flex items-center gap-9">
-<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
-<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'dashboard:myJobs' %}">My Jobs</a>
-<a class="text-white text-sm font-medium leading-normal border-b-2 border-primary pb-1" href="{% url 'dashboard:scraped_jobs' %}">Scraped Jobs</a>
-<a class="text-gray-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="">Log Out</a>
-</div>
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-border-dark" data-alt="User profile picture placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyBEQ-CNmpsMq-_xzgK2MDtTtnuABZNfDpR8LEqXHeCx0zm5jXumUCgBEMzj-VT8FQKU5qzNLsCRvP6hnzt7maQpzMtg7InJ5AngMHr-0-NPwXtAkflXRxyC2oOFUhHwtQEOXFBmzRO8_sIbNpaXDoRFDNsK6N0xraIIWhl_be4NuQFquB7dXCWBVGfES_td_OtF20VWWDnUhcbPJWM9XWHr-Mk0MytM0O6sV45yvjdL85cEDgPKwIj1DmKO5MFnl_0gZIEY2Z_Pg");'></div>
-</div>
-</header>
-</header>
+{% block content %}
+
+
 <!-- Main Content -->
 <main class="flex-1 w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 <!-- Page Heading & Stats Row -->
@@ -193,3 +141,4 @@
 </div>
 </main>
 </body></html>
+{% endblock %}
