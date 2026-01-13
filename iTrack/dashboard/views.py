@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import ScrapedJob, Job
+from .models import ScrapedJob, Job, Activity
 from django.contrib.auth.decorators import login_required
 from .forms import Job_Form, ScrapedJobForm, CompanyForm
 from django.contrib.auth.models import User
@@ -40,6 +40,11 @@ def dashboard_View(request):
         "rejected": (count_map.get("rejected", 0) / total) * 100,
         "offer": (count_map.get("offer", 0) / total) * 100,
     }
+    activities = (
+        Activity.objects
+        .filter(user=request.user)
+        .select_related("job", "job__company")[:5]
+    )
 
     return render(
         request,
@@ -50,6 +55,7 @@ def dashboard_View(request):
             "percent_map": percent_map,
             "total_jobs": total_jobs,
             "new_jobs_today": new_jobs_today,
+            "activities":activities
         },
     )
 

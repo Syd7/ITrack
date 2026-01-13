@@ -26,6 +26,23 @@ class ScrapedJob(models.Model):
     class Meta:
         ordering = ["-date_scraped"]
 
+class Activity(models.Model):
+    ACTIVITY_TYPES = [
+        ("applied", "Applied"),
+        ("rejected", "Rejected"),
+        ("offer", "Offer Received"),
+        ("interview", "Interview Scheduled"),
+        ("interested", "Marked Interested"),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey("Job", on_delete=models.CASCADE)
+    type = models.CharField(max_length=20, choices=ACTIVITY_TYPES)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
 
 class Job(models.Model):
     STATUS_CHOICES = [
@@ -49,6 +66,26 @@ class Job(models.Model):
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     source = models.CharField(max_length=50)
+    def save(self, *args, **kwargs):
+        creating = self.pk is None
+
+        old_status = None
+        if not creating:
+            old_status = (
+                Job.objects
+                .filter(pk=self.pk)
+                .values_list("status", flat=True)
+                .first()
+            )
+
+        super().save(*args, **kwargs)
+
+        if creating or old_status != self.status:
+            Activity.objects.create(
+                user=self.user,
+                job=self,
+                type=self.status
+            )
 
     def __str__(self):
         return f"{self.title} @ {self.company}"
