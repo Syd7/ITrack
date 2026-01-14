@@ -109,20 +109,6 @@ def createJob_View(request):
         'form': form
     })
 
-
-@login_required
-def createCompany_View(request):
-    if request.method == 'POST':
-        form = CompanyForm(request.POST)
-        if form.is_valid():
-            schedule = form.save()
-    else:
-        form = CompanyForm()
-
-    return render(request, 'dashboard/createCompany.html', {
-        'form': form
-    })   
-
 @login_required
 def createScrapedJob_View(request):
     if request.method == 'POST':
