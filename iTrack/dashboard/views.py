@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
-from django.db.models import Count
+from django.db.models import Count, query
 from django.utils import timezone
 from django.db.models import Count
 from datetime import timedelta
@@ -109,6 +109,20 @@ def createJob_View(request):
         'form': form
     })
 
+
+@login_required
+def createCompany_View(request):
+    if request.method == 'POST':
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+            schedule = form.save()
+    else:
+        form = CompanyForm()
+
+    return render(request, 'dashboard/createCompany.html', {
+        'form': form
+    })   
+
 @login_required
 def createScrapedJob_View(request):
     if request.method == 'POST':
@@ -160,11 +174,26 @@ def scraped_jobsView(request):
 
     total_jobs = jobs.count() 
 
+    today = timezone.localtime(timezone.now()).date()
+    new_today = ScrapedJob.objects.filter(date_scraped__date=today).count()
+    if query:
+        jobs = ScrapedJob.objects.filter(title__icontains=query)
+    else:
+        jobs = ScrapedJob.objects.all()
+
+
+    total_jobs = jobs.count()
+
+    percentage = round((new_today / total_jobs) * 100, 2) if total_jobs > 0 else 0
+
+
     return render(request, "dashboard/scraped_jobs.html", {
         "scraped_jobs": jobs,
         "query": query,
         "user_jobs": set(user_jobs),
         "total_jobs": total_jobs,
+        "new_jobs_today": new_today,
+        "percentage": percentage,
     })
 
 
