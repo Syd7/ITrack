@@ -26,7 +26,23 @@
             },
         }
     </script>
+<script>
+  <script>
+  function togglePassword() {
+    const password = document.getElementById("password");
+    const confirm = document.getElementById("confirmPassword");
+    const icon = document.getElementById("eyeIcon");
+
+    const isHidden = password.type === "password";
+    password.type = confirm.type = isHidden ? "text" : "password";
+    icon.textContent = isHidden ? "visibility_off" : "visibility";
+  }
+</script>
+
+</script>
+
 </head>
+
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased">
 <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
 
@@ -68,11 +84,18 @@
                         </button>
 </div>
 </div>
-<form class="flex flex-col gap-5">
+<form method="POST" action="{% url 'user_management:register' %}" class="flex flex-col gap-5">
+  {% csrf_token %}
 <div class="flex flex-col gap-2">
 <label class="text-slate-700 dark:text-white text-sm font-semibold leading-normal">Username</label>
 <div class="relative group">
-<input class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]" placeholder="johndoe" required="" type="text"/>
+<input
+  type="text"
+  name="username"
+  placeholder="johndoe"
+  required
+  class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]"
+/>
 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400 dark:text-[#92adc9]">
 <span class="material-symbols-outlined text-[20px]">person</span>
 </div>
@@ -81,7 +104,11 @@
 <div class="flex flex-col gap-2">
 <label class="text-slate-700 dark:text-white text-sm font-semibold leading-normal">Email Address</label>
 <div class="relative group">
-<input class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]" placeholder="student@university.edu" required="" type="email"/>
+<input type="email"
+name="email"
+placeholder="student@university.edu"
+  required
+   class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]" placeholder="student@university.edu" required="" type="email"/>
 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400 dark:text-[#92adc9]">
 <span class="material-symbols-outlined text-[20px]">mail</span>
 </div>
@@ -92,7 +119,11 @@
 <label class="text-slate-700 dark:text-white text-sm font-semibold leading-normal">Password</label>
 </div>
 <div class="relative group">
-<input class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]" placeholder="••••••••" required="" type="password"/>
+<input type="password"
+  name="password1"
+  placeholder="••••••••"
+  required
+  class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]" />
 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400 dark:text-[#92adc9]">
 <span class="material-symbols-outlined text-[20px]">lock</span>
 </div>
@@ -106,7 +137,11 @@
 <label class="text-slate-700 dark:text-white text-sm font-semibold leading-normal">Confirm Password</label>
 </div>
 <div class="relative group">
-<input class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]" placeholder="••••••••" required="" type="password"/>
+<input type="password"
+  name="password2"
+  placeholder="••••••••"
+  required
+  class="w-full rounded-lg border border-slate-300 dark:border-[#324d67] bg-slate-50 dark:bg-[#111a22] text-slate-900 dark:text-white h-12 px-4 pl-11 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 dark:placeholder:text-[#64748b]" />
 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400 dark:text-[#92adc9]">
 <span class="material-symbols-outlined text-[20px]">check_circle</span>
 </div>

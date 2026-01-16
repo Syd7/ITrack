@@ -196,29 +196,39 @@ def scraped_jobsView(request):
         "percentage": percentage,
     })
 
-
 def login_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
+        print("Submitted Email:", email)
+        print("Submitted Password:", password)
 
+        # Look up user by email
         try:
             user_obj = User.objects.get(email=email)
-            user = authenticate(
-                request,
-                username=user_obj.username,
-                password=password
-            )
+            username = user_obj.username
+            print("Found user_obj:", user_obj)
         except User.DoesNotExist:
+            username = None
+            print("No user found with that email.")
+
+        # Authenticate using username + password
+        if username:
+            user = authenticate(request, username=username, password=password)
+            print("Authenticated user object:", user)
+        else:
             user = None
 
         if user is not None:
             login(request, user)
+            print("Login successful for:", user.username)
             return redirect("dashboard:dashboard")
         else:
+            print("Login failed")
             error = "Invalid email or password"
             return render(request, "registration/login.html", {"error": error})
 
+    print("Rendering login page (GET request)")
     return render(request, "registration/login.html")
 
 @login_required
