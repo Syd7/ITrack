@@ -19,7 +19,8 @@ class Command(BaseCommand):
             location="Philippines",
             results_wanted=100,
             hours_old=72,
-            country_indeed="Philippines"
+            country_indeed="Philippines",
+            linkedin_fetch_description=True, 
         )
 
         if jobs.empty:
@@ -48,7 +49,7 @@ class Command(BaseCommand):
             title = row.get("TITLE", "No Title")
             link = row.get("JOB_URL", "")
             source = row.get("SITE", "Unknown")
-
+            description = row.get("DESCRIPTION", "Description not available")
             if not link:
                 continue
 
@@ -61,7 +62,8 @@ class Command(BaseCommand):
                 defaults={
                     "title": title,
                     "company": company,
-                    "source": source
+                    "source": source,
+                    "description": description,  # ✅ ADD THIS
                 }
             )
             if created:
