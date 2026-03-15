@@ -39,7 +39,7 @@ def register_view(request):
         print("User created successfully:", user)
 
         messages.success(request, "Account created successfully!")
-        return redirect("login")  
+        return redirect("dashboard:login")
 
     # GET request
     print("Rendering registration page (GET request)")

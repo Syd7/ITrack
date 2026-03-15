@@ -64,9 +64,10 @@
 <button class="pb-3 border-b-[3px] border-primary text-primary dark:text-white font-bold text-sm tracking-[0.015em] transition-colors">
                                 Login
                             </button>
-<button class="pb-3 border-b-[3px] border-transparent text-slate-500 dark:text-[#92adc9] hover:text-slate-700 dark:hover:text-slate-300 font-bold text-sm tracking-[0.015em] transition-colors">
-                                Register
-                            </button>
+<a href="{% url 'user_management:register' %}" 
+   class="pb-3 border-b-[3px] border-transparent text-slate-500 dark:text-[#92adc9] hover:text-slate-700 dark:hover:text-slate-300 font-bold text-sm tracking-[0.015em] transition-colors">
+   Register
+</a>
 </div>
 </div>
 <!-- Form -->
@@ -124,7 +125,7 @@
 </div>
 <!-- Social Login -->
 <div class="mt-8 text-center">
-<p class="text-slate-500 dark:text-[#92adc9] text-sm">Don't have an account? <a class="text-primary hover:text-blue-500 font-bold transition-colors" href="#">Create one now</a></p>
+<p class="text-slate-500 dark:text-[#92adc9] text-sm">Don't have an account? <a class="text-primary hover:text-blue-500 font-bold transition-colors" href="{% url 'user_management:register' %}">Create one now</a></p>
 </div>
 </div>
 </div>
