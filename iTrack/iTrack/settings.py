@@ -12,7 +12,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")  # fallback for local tes
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
 # Allow localhost and any host for dev (change for production!)
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "itrack-wmde.onrender.com"]
 
 # CSRF trusted origins (needed for production, optional for local)
 CSRF_TRUSTED_ORIGINS = []
@@ -61,12 +61,8 @@ WSGI_APPLICATION = 'iTrack.wsgi.application'
 
 # Database — simple SQLite for local dev
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
 }
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
