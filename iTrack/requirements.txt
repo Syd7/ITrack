@@ -6,11 +6,13 @@ charset-normalizer==3.4.4
 dj-database-url==3.1.2
 Django==6.0
 et_xmlfile==2.0.0
+gunicorn==25.1.0
 idna==3.11
 jobspy==0.31.0
 markdownify==0.13.1
 numpy==1.26.3
 openpyxl==3.1.5
+packaging==26.0
 pandas==2.3.3
 pydantic==2.12.5
 pydantic_core==2.41.5
